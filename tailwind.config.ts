@@ -57,6 +57,16 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        gold: {
+          DEFAULT: "hsl(45 90% 55%)",
+          light: "hsl(45 90% 65%)",
+          dark: "hsl(35 85% 45%)",
+        },
+        navy: {
+          DEFAULT: "hsl(220 40% 8%)",
+          light: "hsl(220 35% 15%)",
+          dark: "hsl(220 45% 5%)",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -65,25 +75,31 @@ export default {
       },
       keyframes: {
         "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        "spin-slow": {
+          from: { transform: "rotate(0deg)" },
+          to: { transform: "rotate(360deg)" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "spin-slow": "spin-slow 20s linear infinite",
+      },
+      fontFamily: {
+        sans: ["Montserrat", "system-ui", "sans-serif"],
+        display: ["Orbitron", "system-ui", "sans-serif"],
+      },
+      boxShadow: {
+        gold: "0 4px 20px -4px hsl(45 90% 55% / 0.3)",
+        "gold-lg": "0 8px 30px -4px hsl(45 90% 55% / 0.4)",
+        glow: "0 0 30px hsl(45 90% 55% / 0.4)",
       },
     },
   },
