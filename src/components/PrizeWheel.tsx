@@ -5,6 +5,7 @@ export interface Prize {
   name: string;
   color: string;
   is_losing: boolean;
+  probability_weight?: number;
 }
 
 interface PrizeWheelProps {
@@ -26,9 +27,20 @@ export function PrizeWheel({ prizes, onSpinEnd, disabled = false, spinsRemaining
 
     setIsSpinning(true);
 
-    // Always land on a losing prize
-    const losingPrizes = prizes.filter((p) => p.is_losing);
-    const selectedPrize = losingPrizes[Math.floor(Math.random() * losingPrizes.length)];
+    // Select prize based on probability weights
+    const totalWeight = prizes.reduce((sum, prize) => sum + (prize.probability_weight || 1), 0);
+    const random = Math.random() * totalWeight;
+    let weightSum = 0;
+    let selectedPrize = prizes[0];
+
+    for (const prize of prizes) {
+      weightSum += prize.probability_weight || 1;
+      if (random <= weightSum) {
+        selectedPrize = prize;
+        break;
+      }
+    }
+
     const prizeIndex = prizes.findIndex((p) => p.id === selectedPrize.id);
 
     // Calculate rotation: multiple full spins + position to land on selected prize
@@ -66,7 +78,7 @@ export function PrizeWheel({ prizes, onSpinEnd, disabled = false, spinsRemaining
         {/* Wheel */}
         <div
           ref={wheelRef}
-          className="relative w-[320px] h-[320px] md:w-[400px] md:h-[400px] rounded-full overflow-hidden shadow-2xl transition-transform"
+          className="relative w-[280px] h-[280px] md:w-[320px] md:h-[320px] lg:w-[400px] lg:h-[400px] rounded-full overflow-hidden shadow-2xl transition-transform"
           style={{
             transform: `rotate(${rotation}deg)`,
             transitionDuration: isSpinning ? "5s" : "0s",
@@ -110,15 +122,15 @@ export function PrizeWheel({ prizes, onSpinEnd, disabled = false, spinsRemaining
                     x={textX}
                     y={textY}
                     fill={prize.is_losing ? "#ffffff" : "#0a0e17"}
-                    fontSize="3.5"
+                    fontSize={prizes.length > 8 ? "2.8" : "3.2"}
                     fontWeight="bold"
                     textAnchor="middle"
                     dominantBaseline="middle"
                     transform={`rotate(${textAngle}, ${textX}, ${textY})`}
                     className="font-sans"
                   >
-                    {prize.name.length > 12 
-                      ? prize.name.substring(0, 10) + "..." 
+                    {prize.name.length > (prizes.length > 8 ? 8 : 10) 
+                      ? prize.name.substring(0, prizes.length > 8 ? 6 : 8) + "..." 
                       : prize.name}
                   </text>
                 </g>
@@ -128,8 +140,8 @@ export function PrizeWheel({ prizes, onSpinEnd, disabled = false, spinsRemaining
 
           {/* Center circle */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-primary to-secondary shadow-lg border-4 border-primary-foreground flex items-center justify-center">
-              <span className="text-xl md:text-2xl font-display font-bold text-primary-foreground">CP</span>
+            <div className="w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-full bg-gradient-to-br from-primary to-secondary shadow-lg border-2 md:border-4 border-primary-foreground flex items-center justify-center">
+              <span className="text-lg md:text-xl lg:text-2xl font-display font-bold text-primary-foreground">CP</span>
             </div>
           </div>
         </div>
@@ -162,7 +174,7 @@ export function PrizeWheel({ prizes, onSpinEnd, disabled = false, spinsRemaining
         onClick={spinWheel}
         disabled={isSpinning || disabled || spinsRemaining <= 0}
         className={`
-          relative px-12 py-4 rounded-full font-display font-bold text-lg uppercase tracking-wider
+          relative px-8 py-3 md:px-12 md:py-4 rounded-full font-display font-bold text-base md:text-lg uppercase tracking-wider
           transition-all duration-300 transform
           ${isSpinning || disabled || spinsRemaining <= 0
             ? "bg-muted text-muted-foreground cursor-not-allowed"
@@ -185,7 +197,7 @@ export function PrizeWheel({ prizes, onSpinEnd, disabled = false, spinsRemaining
         )}
         
         {!isSpinning && spinsRemaining > 0 && (
-          <span className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-accent text-accent-foreground flex items-center justify-center text-sm font-bold shadow-lg">
+          <span className="absolute -top-1 -right-1 md:-top-2 md:-right-2 w-6 h-6 md:w-8 md:h-8 rounded-full bg-accent text-accent-foreground flex items-center justify-center text-xs md:text-sm font-bold shadow-lg">
             {spinsRemaining}
           </span>
         )}

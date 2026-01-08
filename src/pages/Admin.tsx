@@ -22,6 +22,7 @@ interface Prize {
   color: string;
   is_active: boolean;
   display_order: number;
+  probability_weight: number;
 }
 
 interface Purchase {
@@ -48,6 +49,7 @@ export default function Admin() {
     description: "",
     is_losing: false,
     color: "#d4af37",
+    probability_weight: 1,
   });
 
   useEffect(() => {
@@ -134,6 +136,7 @@ export default function Admin() {
         description: newPrize.description || null,
         is_losing: newPrize.is_losing,
         color: newPrize.color,
+        probability_weight: newPrize.probability_weight,
         display_order: prizes.length + 1,
       });
 
@@ -144,7 +147,7 @@ export default function Admin() {
         description: "Prêmio adicionado com sucesso!",
       });
 
-      setNewPrize({ name: "", description: "", is_losing: false, color: "#d4af37" });
+      setNewPrize({ name: "", description: "", is_losing: false, color: "#d4af37", probability_weight: 1 });
       await loadData();
     } catch (error) {
       console.error("Error adding prize:", error);
@@ -166,6 +169,7 @@ export default function Admin() {
           is_losing: prize.is_losing,
           color: prize.color,
           is_active: prize.is_active,
+          probability_weight: prize.probability_weight,
         })
         .eq("id", prize.id);
 
@@ -251,51 +255,51 @@ export default function Admin() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
           <Card className="premium-card border-border">
-            <CardContent className="p-4 flex items-center gap-4">
-              <div className="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
-                <Gift className="w-6 h-6 text-primary" />
+            <CardContent className="p-3 md:p-4 flex items-center gap-3 md:gap-4">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-primary/20 flex items-center justify-center">
+                <Gift className="w-5 h-5 md:w-6 md:h-6 text-primary" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Prêmios Ativos</p>
-                <p className="text-2xl font-bold text-foreground">{stats.activePrizes}</p>
+                <p className="text-xs md:text-sm text-muted-foreground">Prêmios Ativos</p>
+                <p className="text-xl md:text-2xl font-bold text-foreground">{stats.activePrizes}</p>
               </div>
             </CardContent>
           </Card>
 
           <Card className="premium-card border-border">
-            <CardContent className="p-4 flex items-center gap-4">
-              <div className="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center">
-                <Users className="w-6 h-6 text-accent" />
+            <CardContent className="p-3 md:p-4 flex items-center gap-3 md:gap-4">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-accent/20 flex items-center justify-center">
+                <Users className="w-5 h-5 md:w-6 md:h-6 text-accent" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Compradores</p>
-                <p className="text-2xl font-bold text-foreground">{stats.totalPurchases}</p>
+                <p className="text-xs md:text-sm text-muted-foreground">Compradores</p>
+                <p className="text-xl md:text-2xl font-bold text-foreground">{stats.totalPurchases}</p>
               </div>
             </CardContent>
           </Card>
 
           <Card className="premium-card border-border">
-            <CardContent className="p-4 flex items-center gap-4">
-              <div className="w-12 h-12 rounded-lg bg-secondary/20 flex items-center justify-center">
-                <BarChart3 className="w-6 h-6 text-secondary" />
+            <CardContent className="p-3 md:p-4 flex items-center gap-3 md:gap-4">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-secondary/20 flex items-center justify-center">
+                <BarChart3 className="w-5 h-5 md:w-6 md:h-6 text-secondary" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Giros Realizados</p>
-                <p className="text-2xl font-bold text-foreground">{stats.totalSpinsUsed}</p>
+                <p className="text-xs md:text-sm text-muted-foreground">Giros Realizados</p>
+                <p className="text-xl md:text-2xl font-bold text-foreground">{stats.totalSpinsUsed}</p>
               </div>
             </CardContent>
           </Card>
 
           <Card className="premium-card border-border">
-            <CardContent className="p-4 flex items-center gap-4">
-              <div className="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
-                <Settings className="w-6 h-6 text-primary" />
+            <CardContent className="p-3 md:p-4 flex items-center gap-3 md:gap-4">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg bg-primary/20 flex items-center justify-center">
+                <Settings className="w-5 h-5 md:w-6 md:h-6 text-primary" />
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Total Prêmios</p>
-                <p className="text-2xl font-bold text-foreground">{stats.totalPrizes}</p>
+                <p className="text-xs md:text-sm text-muted-foreground">Total Prêmios</p>
+                <p className="text-xl md:text-2xl font-bold text-foreground">{stats.totalPrizes}</p>
               </div>
             </CardContent>
           </Card>
@@ -329,7 +333,7 @@ export default function Admin() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
                     <div className="space-y-2">
                       <Label htmlFor="name">Nome do Prêmio</Label>
                       <Input
@@ -366,8 +370,23 @@ export default function Admin() {
                       </div>
                     </div>
                     <div className="space-y-2">
-                      <Label>Tipo</Label>
-                      <div className="flex items-center gap-4 h-10">
+                      <Label htmlFor="probability">Probabilidade</Label>
+                      <Input
+                        id="probability"
+                        type="number"
+                        min="1"
+                        max="100"
+                        placeholder="1-100"
+                        value={newPrize.probability_weight}
+                        onChange={(e) => setNewPrize({ ...newPrize, probability_weight: parseInt(e.target.value) || 1 })}
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        Maior = mais chance
+                      </p>
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Tipo & Ação</Label>
+                      <div className="flex flex-col gap-2">
                         <div className="flex items-center gap-2">
                           <Switch
                             checked={newPrize.is_losing}
@@ -385,7 +404,7 @@ export default function Admin() {
                             )}
                           </Label>
                         </div>
-                        <Button onClick={handleAddPrize}>
+                        <Button onClick={handleAddPrize} className="w-full">
                           <Plus className="w-4 h-4 mr-2" />
                           Adicionar
                         </Button>
@@ -410,52 +429,76 @@ export default function Admin() {
                         <TableHead>Cor</TableHead>
                         <TableHead>Nome</TableHead>
                         <TableHead>Tipo</TableHead>
+                        <TableHead>Probabilidade</TableHead>
                         <TableHead>Status</TableHead>
                         <TableHead className="text-right">Ações</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {prizes.map((prize) => (
-                        <TableRow key={prize.id}>
-                          <TableCell>
-                            <div
-                              className="w-8 h-8 rounded-full border-2 border-border"
-                              style={{ backgroundColor: prize.color }}
-                            />
-                          </TableCell>
-                          <TableCell className="font-medium">{prize.name}</TableCell>
-                          <TableCell>
-                            {prize.is_losing ? (
-                              <span className="inline-flex items-center gap-1 text-sm text-muted-foreground">
-                                <Frown className="w-4 h-4" /> Não ganha
-                              </span>
-                            ) : (
-                              <span className="inline-flex items-center gap-1 text-sm text-primary">
-                                <Trophy className="w-4 h-4" /> Prêmio
-                              </span>
-                            )}
-                          </TableCell>
-                          <TableCell>
-                            <Switch
-                              checked={prize.is_active}
-                              onCheckedChange={(checked) => 
-                                handleUpdatePrize({ ...prize, is_active: checked })
-                              }
-                            />
-                          </TableCell>
-                          <TableCell className="text-right">
-                            <div className="flex justify-end gap-2">
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                onClick={() => handleDeletePrize(prize.id)}
-                              >
-                                <Trash2 className="w-4 h-4 text-destructive" />
-                              </Button>
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                      ))}
+                      {prizes.map((prize) => {
+                        const totalWeight = prizes.reduce((sum, p) => sum + (p.probability_weight || 1), 0);
+                        const percentage = Math.round(((prize.probability_weight || 1) / totalWeight) * 100);
+                        
+                        return (
+                          <TableRow key={prize.id}>
+                            <TableCell>
+                              <div
+                                className="w-8 h-8 rounded-full border-2 border-border"
+                                style={{ backgroundColor: prize.color }}
+                              />
+                            </TableCell>
+                            <TableCell className="font-medium">{prize.name}</TableCell>
+                            <TableCell>
+                              {prize.is_losing ? (
+                                <span className="inline-flex items-center gap-1 text-sm text-muted-foreground">
+                                  <Frown className="w-4 h-4" /> Não ganha
+                                </span>
+                              ) : (
+                                <span className="inline-flex items-center gap-1 text-sm text-primary">
+                                  <Trophy className="w-4 h-4" /> Prêmio
+                                </span>
+                              )}
+                            </TableCell>
+                            <TableCell>
+                              <div className="flex items-center gap-2">
+                                <Input
+                                  type="number"
+                                  min="1"
+                                  max="100"
+                                  value={prize.probability_weight || 1}
+                                  onChange={(e) => {
+                                    const updatedPrize = { ...prize, probability_weight: parseInt(e.target.value) || 1 };
+                                    handleUpdatePrize(updatedPrize);
+                                  }}
+                                  className="w-16 h-8 text-center"
+                                />
+                                <span className="text-xs text-muted-foreground">
+                                  ({percentage}%)
+                                </span>
+                              </div>
+                            </TableCell>
+                            <TableCell>
+                              <Switch
+                                checked={prize.is_active}
+                                onCheckedChange={(checked) => 
+                                  handleUpdatePrize({ ...prize, is_active: checked })
+                                }
+                              />
+                            </TableCell>
+                            <TableCell className="text-right">
+                              <div className="flex justify-end gap-2">
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                  onClick={() => handleDeletePrize(prize.id)}
+                                >
+                                  <Trash2 className="w-4 h-4 text-destructive" />
+                                </Button>
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
                     </TableBody>
                   </Table>
                 </CardContent>

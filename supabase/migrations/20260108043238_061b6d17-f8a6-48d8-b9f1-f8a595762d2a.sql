@@ -11,6 +11,7 @@ CREATE TABLE public.prizes (
     icon TEXT,
     is_active BOOLEAN NOT NULL DEFAULT true,
     display_order INTEGER NOT NULL DEFAULT 0,
+    probability_weight INTEGER NOT NULL DEFAULT 1,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()
 );
@@ -148,12 +149,12 @@ FOR EACH ROW
 EXECUTE FUNCTION public.update_updated_at_column();
 
 -- Insert default prizes (including losing options)
-INSERT INTO public.prizes (name, description, is_losing, color, display_order) VALUES
-('Mesa $30K', 'Mesa proprietária de $30.000', false, '#ffd700', 1),
-('Bônus $200', 'Bônus de $200 em créditos', false, '#d4af37', 2),
-('Bônus $100', 'Bônus de $100 em créditos', false, '#c0a030', 3),
-('Mentoria VIP', 'Sessão de mentoria exclusiva', false, '#b8860b', 4),
-('E-book Pro', 'E-book de estratégias avançadas', false, '#daa520', 5),
-('Perdeu a vez', 'Tente novamente na próxima!', true, '#4a4a4a', 6),
-('Gire novamente', 'Você tem mais uma chance!', true, '#5a5a5a', 7),
-('Que pena...', 'Não foi dessa vez!', true, '#3a3a3a', 8);
+INSERT INTO public.prizes (name, description, is_losing, color, display_order, probability_weight) VALUES
+('Mesa $30K', 'Mesa proprietária de $30.000', false, '#ffd700', 1, 1),
+('Bônus $200', 'Bônus de $200 em créditos', false, '#d4af37', 2, 2),
+('Bônus $100', 'Bônus de $100 em créditos', false, '#c0a030', 3, 3),
+('Mentoria VIP', 'Sessão de mentoria exclusiva', false, '#b8860b', 4, 2),
+('E-book Pro', 'E-book de estratégias avançadas', false, '#daa520', 5, 4),
+('Perdeu a vez', 'Tente novamente na próxima!', true, '#4a4a4a', 6, 40),
+('Gire novamente', 'Você tem mais uma chance!', true, '#5a5a5a', 7, 30),
+('Que pena...', 'Não foi dessa vez!', true, '#3a3a3a', 8, 18);

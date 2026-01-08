@@ -40,10 +40,10 @@ export function WheelPage() {
   useEffect(() => {
     const init = async () => {
       try {
-        // Load prizes
+        // Load prizes and validate token
         const { data: prizesData, error: prizesError } = await supabase
           .from("prizes")
-          .select("id, name, color, is_losing")
+          .select("id, name, color, is_losing, probability_weight")
           .eq("is_active", true)
           .order("display_order");
 
@@ -162,18 +162,18 @@ export function WheelPage() {
     <div className="min-h-screen py-8 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-4">
-            <CheckCircle2 className="w-5 h-5 text-primary" />
-            <span className="text-primary font-medium">Compra Confirmada</span>
+        <div className="text-center mb-6 md:mb-8 px-4">
+          <div className="inline-flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 rounded-full bg-primary/10 border border-primary/20 mb-3 md:mb-4">
+            <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5 text-primary" />
+            <span className="text-primary font-medium text-sm md:text-base">Compra Confirmada</span>
           </div>
           
-          <h1 className="text-3xl md:text-5xl font-display font-bold text-gold-gradient mb-4">
+          <h1 className="text-2xl md:text-3xl lg:text-5xl font-display font-bold text-gold-gradient mb-3 md:mb-4">
             Roleta de Prêmios
           </h1>
           
           {purchase && (
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground text-sm md:text-base">
               Olá, <span className="text-foreground font-medium">{purchase.user_name || purchase.user_email}</span>!
               <br />
               Você tem <span className="text-primary font-bold">{spinsRemaining} {spinsRemaining === 1 ? "giro" : "giros"}</span> disponíveis.
@@ -182,21 +182,21 @@ export function WheelPage() {
         </div>
 
         {/* Prize Banner */}
-        <div className="premium-card rounded-2xl p-6 mb-8 border-gold-glow text-center">
-          <div className="flex items-center justify-center gap-3 mb-2">
-            <Gift className="w-6 h-6 text-primary" />
-            <span className="text-lg font-display font-semibold text-gold-gradient">
+        <div className="premium-card rounded-xl md:rounded-2xl p-4 md:p-6 mb-6 md:mb-8 border-gold-glow text-center mx-4 md:mx-0">
+          <div className="flex items-center justify-center gap-2 md:gap-3 mb-2">
+            <Gift className="w-5 h-5 md:w-6 md:h-6 text-primary" />
+            <span className="text-base md:text-lg font-display font-semibold text-gold-gradient">
               GIRE E GANHE ATÉ $1.000!
             </span>
-            <Gift className="w-6 h-6 text-primary" />
+            <Gift className="w-5 h-5 md:w-6 md:h-6 text-primary" />
           </div>
-          <p className="text-muted-foreground text-sm">
+          <p className="text-muted-foreground text-xs md:text-sm">
             Cada giro é uma chance de ganhar prêmios incríveis!
           </p>
         </div>
 
         {/* Wheel */}
-        <div className="flex justify-center mb-8">
+        <div className="flex justify-center mb-6 md:mb-8 px-4">
           {prizes.length > 0 ? (
             <PrizeWheel
               prizes={prizes}

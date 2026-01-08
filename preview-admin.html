@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin - Roleta de Prêmios</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#d4af37',
+                        secondary: '#b8860b',
+                        accent: '#ffd700',
+                        background: '#0a0e17',
+                        foreground: '#ffffff',
+                        muted: '#6b7280',
+                        'muted-foreground': '#9ca3af',
+                        border: '#374151',
+                        destructive: '#ef4444'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background: linear-gradient(135deg, #0a0e17 0%, #1a1f2e 100%); }
+        .premium-card { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); }
+        .gold-gradient { background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    </style>
+</head>
+<body class="min-h-screen text-white">
+    <div class="min-h-screen p-4 md:p-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-8">
+                <div>
+                    <h1 class="text-3xl font-bold gold-gradient">Painel Admin</h1>
+                    <p class="text-muted-foreground">Gerencie prêmios e visualize estatísticas</p>
+                </div>
+                <button class="px-4 py-2 border border-gray-600 rounded-lg hover:bg-gray-800 transition-colors">
+                    🚪 Sair
+                </button>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div class="premium-card rounded-lg p-4 border border-gray-700">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
+                            🎁
+                        </div>
+                        <div>
+                            <p class="text-sm text-muted-foreground">Prêmios Ativos</p>
+                            <p class="text-2xl font-bold">8</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="premium-card rounded-lg p-4 border border-gray-700">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center">
+                            👥
+                        </div>
+                        <div>
+                            <p class="text-sm text-muted-foreground">Compradores</p>
+                            <p class="text-2xl font-bold">127</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="premium-card rounded-lg p-4 border border-gray-700">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-lg bg-secondary/20 flex items-center justify-center">
+                            📊
+                        </div>
+                        <div>
+                            <p class="text-sm text-muted-foreground">Giros Realizados</p>
+                            <p class="text-2xl font-bold">543</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="premium-card rounded-lg p-4 border border-gray-700">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
+                            ⚙️
+                        </div>
+                        <div>
+                            <p class="text-sm text-muted-foreground">Total Prêmios</p>
+                            <p class="text-2xl font-bold">8</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="space-y-6">
+                <div class="flex space-x-1 bg-gray-800 p-1 rounded-lg w-fit">
+                    <button class="px-4 py-2 bg-primary text-black rounded-md font-medium">
+                        🎁 Prêmios
+                    </button>
+                    <button class="px-4 py-2 text-gray-400 hover:text-white rounded-md">
+                        👥 Compradores
+                    </button>
+                </div>
+
+                <!-- Add Prize Form -->
+                <div class="premium-card rounded-lg p-6 border border-gray-700">
+                    <h3 class="text-xl font-bold mb-2 flex items-center gap-2">
+                        ➕ Adicionar Prêmio
+                    </h3>
+                    <p class="text-muted-foreground mb-4">Adicione novos prêmios à roleta</p>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-5 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Nome do Prêmio</label>
+                            <input type="text" placeholder="Ex: Mesa $30K" 
+                                   class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-lg focus:border-primary focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Descrição</label>
+                            <input type="text" placeholder="Descrição opcional" 
+                                   class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-lg focus:border-primary focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Cor</label>
+                            <div class="flex gap-2">
+                                <input type="color" value="#d4af37" class="w-12 h-10 rounded border border-gray-600">
+                                <input type="text" value="#d4af37" 
+                                       class="flex-1 px-3 py-2 bg-gray-800 border border-gray-600 rounded-lg focus:border-primary focus:outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Probabilidade</label>
+                            <input type="number" min="1" max="100" value="1" 
+                                   class="w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-lg focus:border-primary focus:outline-none">
+                            <p class="text-xs text-muted-foreground mt-1">Maior = mais chance</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Tipo & Ação</label>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <input type="checkbox" class="rounded">
+                                    <span class="text-sm">🏆 Prêmio</span>
+                                </div>
+                                <button class="w-full px-4 py-2 bg-primary text-black rounded-lg font-medium hover:bg-primary/80 transition-colors">
+                                    ➕ Adicionar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Prizes List -->
+                <div class="premium-card rounded-lg p-6 border border-gray-700">
+                    <h3 class="text-xl font-bold mb-2">Prêmios Cadastrados</h3>
+                    <p class="text-muted-foreground mb-4">Gerencie os prêmios da roleta</p>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="border-b border-gray-700">
+                                    <th class="text-left py-3">Cor</th>
+                                    <th class="text-left py-3">Nome</th>
+                                    <th class="text-left py-3">Tipo</th>
+                                    <th class="text-left py-3">Probabilidade</th>
+                                    <th class="text-left py-3">Status</th>
+                                    <th class="text-right py-3">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody class="space-y-2">
+                                <tr class="border-b border-gray-800">
+                                    <td class="py-3">
+                                        <div class="w-8 h-8 rounded-full border-2 border-gray-600" style="background-color: #ffd700;"></div>
+                                    </td>
+                                    <td class="py-3 font-medium">Mesa $30K</td>
+                                    <td class="py-3">
+                                        <span class="inline-flex items-center gap-1 text-sm text-primary">
+                                            🏆 Prêmio
+                                        </span>
+                                    </td>
+                                    <td class="py-3">
+                                        <div class="flex items-center gap-2">
+                                            <input type="number" value="1" class="w-16 h-8 text-center bg-gray-800 border border-gray-600 rounded">
+                                            <span class="text-xs text-muted-foreground">(1%)</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3">
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" checked class="sr-only peer">
+                                            <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                                        </label>
+                                    </td>
+                                    <td class="py-3 text-right">
+                                        <button class="p-2 text-destructive hover:bg-gray-800 rounded">
+                                            🗑️
+                                        </button>
+                                    </td>
+                                </tr>
+                                
+                                <tr class="border-b border-gray-800">
+                                    <td class="py-3">
+                                        <div class="w-8 h-8 rounded-full border-2 border-gray-600" style="background-color: #d4af37;"></div>
+                                    </td>
+                                    <td class="py-3 font-medium">Bônus $200</td>
+                                    <td class="py-3">
+                                        <span class="inline-flex items-center gap-1 text-sm text-primary">
+                                            🏆 Prêmio
+                                        </span>
+                                    </td>
+                                    <td class="py-3">
+                                        <div class="flex items-center gap-2">
+                                            <input type="number" value="2" class="w-16 h-8 text-center bg-gray-800 border border-gray-600 rounded">
+                                            <span class="text-xs text-muted-foreground">(2%)</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3">
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" checked class="sr-only peer">
+                                            <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                                        </label>
+                                    </td>
+                                    <td class="py-3 text-right">
+                                        <button class="p-2 text-destructive hover:bg-gray-800 rounded">
+                                            🗑️
+                                        </button>
+                                    </td>
+                                </tr>
+                                
+                                <tr class="border-b border-gray-800">
+                                    <td class="py-3">
+                                        <div class="w-8 h-8 rounded-full border-2 border-gray-600" style="background-color: #4a4a4a;"></div>
+                                    </td>
+                                    <td class="py-3 font-medium">Perdeu a vez</td>
+                                    <td class="py-3">
+                                        <span class="inline-flex items-center gap-1 text-sm text-muted-foreground">
+                                            😔 Não ganha
+                                        </span>
+                                    </td>
+                                    <td class="py-3">
+                                        <div class="flex items-center gap-2">
+                                            <input type="number" value="40" class="w-16 h-8 text-center bg-gray-800 border border-gray-600 rounded">
+                                            <span class="text-xs text-muted-foreground">(40%)</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3">
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" checked class="sr-only peer">
+                                            <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                                        </label>
+                                    </td>
+                                    <td class="py-3 text-right">
+                                        <button class="p-2 text-destructive hover:bg-gray-800 rounded">
+                                            🗑️
+                                        </button>
+                                    </td>
+                                </tr>
+                                
+                                <tr class="border-b border-gray-800">
+                                    <td class="py-3">
+                                        <div class="w-8 h-8 rounded-full border-2 border-gray-600" style="background-color: #5a5a5a;"></div>
+                                    </td>
+                                    <td class="py-3 font-medium">Gire novamente</td>
+                                    <td class="py-3">
+                                        <span class="inline-flex items-center gap-1 text-sm text-muted-foreground">
+                                            😔 Não ganha
+                                        </span>
+                                    </td>
+                                    <td class="py-3">
+                                        <div class="flex items-center gap-2">
+                                            <input type="number" value="30" class="w-16 h-8 text-center bg-gray-800 border border-gray-600 rounded">
+                                            <span class="text-xs text-muted-foreground">(30%)</span>
+                                        </div>
+                                    </td>
+                                    <td class="py-3">
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                            <input type="checkbox" checked class="sr-only peer">
+                                            <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                                        </label>
+                                    </td>
+                                    <td class="py-3 text-right">
+                                        <button class="p-2 text-destructive hover:bg-gray-800 rounded">
+                                            🗑️
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simular funcionalidade interativa
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('change', function() {
+                // Simular atualização de percentual
+                const percentage = Math.round((this.value / 100) * 100);
+                const span = this.parentElement.querySelector('span');
+                if (span) {
+                    span.textContent = `(${percentage}%)`;
+                }
+            });
+        });
+
+        // Simular toggle switches
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                console.log('Status alterado:', this.checked);
+            });
+        });
+    </script>
+</body>
+</html>
